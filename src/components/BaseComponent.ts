@@ -12,7 +12,7 @@ export abstract class BaseComponent {
   }
 
   // Abstract method to be implemented by subclasses
-  abstract getChildren(): Promise<BaseComponent[]>;
+  abstract getChildren(): BaseComponent[];
   abstract getComponentSpecificFieldsGQL(): string;
 
   // Asynchronous factory method to create an instance based on __typename
@@ -23,7 +23,7 @@ export abstract class BaseComponent {
 
     try {
       // Dynamically import the component module based on __typename
-      console.log('Import module ', __typename);
+      console.log('Import module', __typename);
       const componentModelModule = await import(
         `@/components/${__typename}/Model`
       );

@@ -37,26 +37,32 @@ export async function getPageBySlug(slug: string): Promise<DemoPage> {
   });
 }
 
+function toCamelCase(__typename: string) {
+  return __typename.charAt(0).toLowerCase() + __typename.slice(1);
+}
+
 export async function getComponentByID<T extends BaseComponent>(
-  component: T
+  component: BaseComponent
 ): Promise<T> {
   const {
     __typename,
     sys: { id: sysId },
   } = component;
-  const typeNameCamelCase =
-    __typename.charAt(0).toLowerCase() + __typename.slice(1);
-  console.log('getComponentByID', Reflect.getPrototypeOf(component));
+  const typeNameCamelCase = toCamelCase(__typename);
+  const identifiedComponent: T =
+    await BaseComponent.createComponent<T>(component);
+  console.log('getComponentByID identifiedComponent =>', identifiedComponent);
   return fetchGraphQL(`
     query {
         ${typeNameCamelCase}(id: "${sysId}") {
-            ${component?.getComponentSpecificFieldsGQL?.() ?? ''}
+            ${identifiedComponent?.getComponentSpecificFieldsGQL?.() ?? ''}
             ${COMMON_AND_CHILDREN}
         }
     }
     `).then((json) => {
     const cmpData = json?.data?.[typeNameCamelCase];
-    return BaseComponent.createComponent<T>(cmpData);
+    console.log('getComponentByID cmpData == ', cmpData);
+    return Object.assign(identifiedComponent, cmpData);
   });
 }
 

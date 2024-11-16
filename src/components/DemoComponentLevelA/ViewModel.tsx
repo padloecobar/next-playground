@@ -3,9 +3,10 @@ import DemoComponentLevelA from "@/components/DemoComponentLevelA/Model";
 import {BaseComponent} from "@/components/BaseComponent";
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
 
-const ViewModel = async ({entry}: { entry: DemoComponentLevelA }) => {
-    //console.log('entry = ', entry);
+const ViewModel = async ({entry}: { entry: BaseComponent }) => {
+    console.log('ViewModel entry = ', entry);
     const data = await getComponentByID<DemoComponentLevelA>(entry);
+    console.log('ViewModel data = ', data);
     const children = await data.getChildren();
     return (
         <>

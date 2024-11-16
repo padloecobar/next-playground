@@ -10,7 +10,7 @@ const ViewModel = async ({entry}: { entry: DemoComponentLevelB }) => {
   return (
     <>
 
-      uniqueTitle : {data.uniqueTitle}
+      uniqueTitle : {data.title}
   {children.map(item => {
     <ComponentResolver entry={item}/>
   })}
