@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Full width */
+    padding: 0;  /* Adjust padding if needed */
+    margin: 0;   /* Adjust margin if needed */
+}
+
+.item {
+    width: 100%; /* Each item takes full width */
+    margin-bottom: 1rem; /* Optional: spacing between items */
+}
