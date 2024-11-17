@@ -1,0 +1,26 @@
+# DemoComponent.graphql
+fragment DemoComponentLevelAFields on DemoComponentLevelA{
+    uniqueTitle
+    __typename
+    sys {
+        id
+        locale
+    }
+    contentListCollection {
+        total
+        skip
+        limit
+        items {
+            __typename
+            sys {
+                id
+                locale
+            }
+        }
+    }
+}
+query DemoComponentLevelAByID($id: String!) {
+    demoComponentLevelA(id: $id) {
+        ...DemoComponentLevelAFields
+    }
+}

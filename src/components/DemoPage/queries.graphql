@@ -1,0 +1,12 @@
+query DemoPageBySlug ($slug: String!) {
+    demoPageCollection(where: { slug: $slug }, limit: 1) {
+        items {
+            __typename
+            _id
+            sys {
+                id
+                locale
+            }
+        }
+    }
+}

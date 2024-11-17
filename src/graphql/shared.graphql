@@ -1,0 +1,4 @@
+fragment MySys on Sys {
+    id,
+    locale,
+}

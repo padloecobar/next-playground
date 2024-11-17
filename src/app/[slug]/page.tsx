@@ -1,8 +1,13 @@
-import { getComponentByID, getPageBySlug } from '@/lib/api';
 import styles from './page.module.css';
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
-import DemoPage from '@/components/DemoPage/Model';
-import { BaseComponent } from '@/components/BaseComponent';
+
+import { fetchGraphQL } from '@/graphql/fetchGraphQL';
+
+import {
+  DemoPageBySlugDocument,
+  DemoPageBySlugQuery,
+  DemoPageBySlugQueryVariables,
+} from '@/components/DemoPage/__generated/queries.generated';
 
 export default async function Page({
   params,
@@ -10,8 +15,12 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  const page = await getPageBySlug(slug);
-  console.log('page=', page);
+  //const page = await getPageBySlug(slug);
+  const page = await fetchGraphQL<
+    DemoPageBySlugQuery,
+    DemoPageBySlugQueryVariables
+  >(DemoPageBySlugDocument, { slug: slug, preview: false }, {});
+  console.log('page=', page.demoPageCollection);
 
   // const childComponents = await Promise.all(
   //   page?.contentListCollection?.items?.map((item) =>
@@ -19,7 +28,7 @@ export default async function Page({
   //   ) || []
   // );
   //const childComponents = page?.contentListCollection?.items || [];
-  const childComponents = await page.getChildren();
+  const childComponents = []; //await page.getChildren();
 
   return (
     <>
