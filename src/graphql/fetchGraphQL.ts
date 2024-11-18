@@ -18,6 +18,10 @@ export const fetchConfig = {
     },
   },
 };
+// Utility function to introduce a delay
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export async function fetchGraphQL<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
@@ -29,7 +33,7 @@ export async function fetchGraphQL<TResult, TVariables>(
     variables,
   });
   const startTime = Date.now();
-
+  await delay(2000);
   console.log(`fetchUrl ${fetchConfig.endpoint}`, body, variables);
   const response = await fetch(fetchConfig.endpoint as string, {
     method: 'POST',
