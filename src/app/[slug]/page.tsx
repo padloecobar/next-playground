@@ -7,7 +7,21 @@ import {
   DemoPageBySlugQuery,
   DemoPageBySlugQueryVariables,
 } from '@/graphql/__generated/graphql-operations';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 
+interface Props {
+  slug: Promise<{ slug: string }>;
+}
+
+// export async function generateStaticParams() {
+//   return [
+//     {
+//       slug: 'demo-page',
+//     },
+//   ];
+// }
+
+//export const dynamicParams = true;
 
 export default async function Page({
   params,
@@ -15,20 +29,15 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug;
-  //const page = await getPageBySlug(slug);
+  console.log('slug =', slug);
   const page = await fetchGraphQL<
     DemoPageBySlugQuery,
     DemoPageBySlugQueryVariables
   >(DemoPageBySlugDocument, { slug: slug, preview: false }, {});
-  const childComponents = page.demoPageCollection?.items[0]?.contentListCollection?.items ?? []
-  console.log('page items =', childComponents);
 
-  // const childComponents = await Promise.all(
-  //   page?.contentListCollection?.items?.map((item) =>
-  //     BaseComponent.createComponent(item)
-  //   ) || []
-  // );
-  //const childComponents = page?.contentListCollection?.items || [];
+  const childComponents =
+    page.demoPageCollection?.items[0]?.contentListCollection?.items ?? [];
+  // console.log('page items =', childComponents);
 
   return (
     <>

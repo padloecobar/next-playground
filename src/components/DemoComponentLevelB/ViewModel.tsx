@@ -9,7 +9,7 @@ import {
 } from '@/graphql/__generated/graphql-operations';
 
 const ViewModel = async ({ entry }: { entry: Entry }) => {
-  console.log('B entry = ', entry);
+  // console.log('B entry = ', entry);
   const data = await fetchGraphQL<
     DemoComponentLevelBByIdQuery,
     DemoComponentLevelBByIdQueryVariables

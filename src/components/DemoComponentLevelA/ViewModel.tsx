@@ -10,7 +10,7 @@ import Row from '@/components/DemoComponentLevelA/views/Row';
 import Col from '@/components/DemoComponentLevelA/views/Col';
 
 const ViewModel = async ({ entry }: { entry: Entry }) => {
-  console.log('ViewModel entry = ', entry);
+  // console.log('ViewModel entry = ', entry);
   const data = await fetchGraphQL<
     DemoComponentLevelAByIdQuery,
     DemoComponentLevelAByIdQueryVariables
@@ -23,7 +23,7 @@ const ViewModel = async ({ entry }: { entry: Entry }) => {
       },
     }
   );
-  console.log('ViewModel data = ', data);
+  // console.log('ViewModel data = ', data);
   const cmpData = data.demoComponentLevelA as DemoComponentLevelAFieldsFragment;
   return (
     <div style={{borderStyle: 'dashed'}}>

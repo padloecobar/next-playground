@@ -1,4 +1,5 @@
-import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
+import 'server-only';
+import { TypedDocumentString } from '@/graphql/__generated/graphql-operations';
 
 export const fetchConfig = {
   endpoint: `https://graphql.contentful.com/content/v1/spaces/${String(
@@ -18,30 +19,30 @@ export const fetchConfig = {
   },
 };
 
-export async function fetchGraphQL<
-  TResult,
-  TVariables extends { preview?: boolean | null },
->(
+export async function fetchGraphQL<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
-  variables: TVariables,
-  options: any
+  variables: TVariables & { preview?: boolean | null },
+  options: object
 ): Promise<TResult> {
   const body = JSON.stringify({
     query: query,
     variables,
   });
+  const startTime = Date.now();
+
   console.log(`fetchUrl ${fetchConfig.endpoint}`, body, variables);
   const response = await fetch(fetchConfig.endpoint as string, {
     method: 'POST',
     ...(variables?.preview ? fetchConfig.previewParams : fetchConfig.params),
     body,
     ...options,
-    cache: "force-cache",
+    cache: 'force-cache',
   });
 
   const json = await response.json();
 
-  console.log('response = ', json);
+  const endTime = Date.now();
+  console.log('response = ', `${endTime - startTime} ms`, json);
 
   if (json.errors) {
     //throw new Error(json.errors.map((err: any) => err.message).join('\n'));
@@ -52,17 +53,17 @@ export async function fetchGraphQL<
 }
 
 
-export class TypedDocumentString<TResult, TVariables>
-  extends String
-  implements DocumentTypeDecoration<TResult, TVariables>
-{
-  __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
-
-  constructor(private value: string, public __meta__?: Record<string, any> | undefined) {
-    super(value);
-  }
-
-  toString(): string & DocumentTypeDecoration<TResult, TVariables> {
-    return this.value;
-  }
-}
+// export class TypedDocumentString<TResult, TVariables>
+//   extends String
+//   implements DocumentTypeDecoration<TResult, TVariables>
+// {
+//   __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
+//
+//   constructor(private value: string, public __meta__?: Record<string, any> | undefined) {
+//     super(value);
+//   }
+//
+//   toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+//     return this.value;
+//   }
+// }
