@@ -1,21 +1,17 @@
 # DemoComponent.graphql
 fragment DemoComponentLevelAFields on DemoComponentLevelA{
     uniqueTitle
+    viewConfig
     __typename
     sys {
-        id
-        locale
+       ...MySys
     }
-    contentListCollection {
+    contentListCollection{
         total
-        skip
         limit
+        skip
         items {
-            __typename
-            sys {
-                id
-                locale
-            }
+            ...MyEntry
         }
     }
 }

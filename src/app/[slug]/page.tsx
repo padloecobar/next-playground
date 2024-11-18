@@ -2,12 +2,12 @@ import styles from './page.module.css';
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
 
 import { fetchGraphQL } from '@/graphql/fetchGraphQL';
-
 import {
   DemoPageBySlugDocument,
   DemoPageBySlugQuery,
   DemoPageBySlugQueryVariables,
-} from '@/components/DemoPage/__generated/queries.generated';
+} from '@/graphql/__generated/graphql-operations';
+
 
 export default async function Page({
   params,
@@ -20,7 +20,8 @@ export default async function Page({
     DemoPageBySlugQuery,
     DemoPageBySlugQueryVariables
   >(DemoPageBySlugDocument, { slug: slug, preview: false }, {});
-  console.log('page=', page.demoPageCollection);
+  const childComponents = page.demoPageCollection?.items[0]?.contentListCollection?.items ?? []
+  console.log('page items =', childComponents);
 
   // const childComponents = await Promise.all(
   //   page?.contentListCollection?.items?.map((item) =>
@@ -28,14 +29,13 @@ export default async function Page({
   //   ) || []
   // );
   //const childComponents = page?.contentListCollection?.items || [];
-  const childComponents = []; //await page.getChildren();
 
   return (
     <>
       <p>Page slug : {slug}</p>
       <div
         style={{
-          height: '500px',
+          height: 'auto',
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '0 1rem',
@@ -43,9 +43,8 @@ export default async function Page({
       >
         <div>Component list:</div>
         <div className={styles.container}>
-          {childComponents.map((item, i) => (
-            <div key={i} className={styles.item}>
-              <div>{item.__typename}</div>
+          {childComponents.map((item) => (
+            <div key={item.sys.id} className={styles.item}>
               <ComponentResolver entry={item} />
             </div>
           ))}

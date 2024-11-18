@@ -1,5 +1,5 @@
 // BaseComponent.ts - Defines the base component structure
-export abstract class BaseComponent {
+abstract class BaseComponent {
   public readonly __typename: string;
   public sys: Sys;
 

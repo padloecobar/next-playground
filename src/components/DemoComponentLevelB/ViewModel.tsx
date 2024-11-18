@@ -1,21 +1,39 @@
-import {getComponentByID} from "@/lib/api";
-import {BaseComponent} from "@/components/BaseComponent";
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
-import DemoComponentLevelB from '@/components/DemoComponentLevelB/Model';
+import { fetchGraphQL } from '@/graphql/fetchGraphQL';
+import {
+  DemoComponentLevelBByIdDocument,
+  DemoComponentLevelBByIdQuery,
+  DemoComponentLevelBByIdQueryVariables,
+  DemoComponentLevelBFieldsFragment,
+  Entry,
+} from '@/graphql/__generated/graphql-operations';
 
-const ViewModel = async ({entry}: { entry: DemoComponentLevelB }) => {
-  //console.log('entry = ', entry);
-  const data = await getComponentByID<DemoComponentLevelB>(entry);
-  const children = await data.getChildren();
+const ViewModel = async ({ entry }: { entry: Entry }) => {
+  console.log('B entry = ', entry);
+  const data = await fetchGraphQL<
+    DemoComponentLevelBByIdQuery,
+    DemoComponentLevelBByIdQueryVariables
+  >(
+    DemoComponentLevelBByIdDocument,
+    { id: entry.sys.id },
+    {
+      next: {
+        tags: [entry.sys.id],
+      },
+    }
+  );
+  const cmpData = data.demoComponentLevelB as DemoComponentLevelBFieldsFragment;
+  const children = cmpData.contentListCollection?.items ?? [];
   return (
-    <>
-
-      uniqueTitle : {data.title}
-  {children.map(item => {
-    <ComponentResolver entry={item}/>
-  })}
-  </>
-);
-}
+    <div style={{borderStyle: 'dashed'}}>
+      title B: {cmpData.title}
+      {children.map((item) => item && (
+        <div key={item.sys.id}>
+          <ComponentResolver entry={item} />
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default ViewModel;

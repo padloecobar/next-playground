@@ -1,0 +1,6 @@
+.rowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap between items as needed */
+}

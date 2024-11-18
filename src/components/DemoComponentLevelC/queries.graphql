@@ -1,0 +1,16 @@
+# DemoComponent.graphql
+fragment DemoComponentLevelCFields on DemoComponentLevelC{
+    __typename
+    sys {
+        ...MySys
+    }
+    title
+    image {
+        url
+    }
+}
+query DemoComponentLevelCByID($id: String!) {
+    demoComponentLevelC(id: $id) {
+        ...DemoComponentLevelCFields
+    }
+}

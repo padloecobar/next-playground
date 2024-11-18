@@ -36,6 +36,7 @@ export async function fetchGraphQL<
     ...(variables?.preview ? fetchConfig.previewParams : fetchConfig.params),
     body,
     ...options,
+    cache: "force-cache",
   });
 
   const json = await response.json();
@@ -47,7 +48,7 @@ export async function fetchGraphQL<
     throw new Error(json.errors[0].message);
   }
 
-  return json.data;
+  return json.data as TResult;
 }
 
 

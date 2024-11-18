@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic";
-import {BaseComponent} from "@/components/BaseComponent";
 import React from 'react';
 
-export function ComponentResolver<T extends BaseComponent>(
-    {entry}: { entry: T }
+export function ComponentResolver(
+    {entry}: { entry: {__typename: string} }
 ) {
     const Component: React.ComponentType<T> =
         dynamic(() => import((`@/components/${entry.__typename}/ViewModel`)))

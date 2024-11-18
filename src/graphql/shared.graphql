@@ -2,3 +2,12 @@ fragment MySys on Sys {
     id,
     locale,
 }
+
+fragment MyEntry on Entry {
+    __typename,
+    sys{
+        ...MySys
+    }
+}
+
+

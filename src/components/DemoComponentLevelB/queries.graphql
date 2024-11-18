@@ -3,19 +3,14 @@ fragment DemoComponentLevelBFields on DemoComponentLevelB{
     title
     __typename
     sys {
-        id
-        locale
+        ...MySys
     }
     contentListCollection {
         total
         skip
         limit
         items {
-            __typename
-            sys {
-                id
-                locale
-            }
+            ...MyEntry
         }
     }
 }
