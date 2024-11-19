@@ -1,0 +1,13 @@
+query DemoPages{
+    demoPageCollection {
+        total
+        skip
+        limit
+        items {
+            sys {
+                ...MySys
+            }
+            slug
+        }
+    }
+}

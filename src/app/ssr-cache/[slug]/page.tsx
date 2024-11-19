@@ -1,6 +1,5 @@
 import DemoPageCmp from '@/components/DemoPage/DemoPageCmp';
 
-
 export default async function Page({
   params,
 }: {
@@ -8,7 +7,5 @@ export default async function Page({
 }) {
   const slug = (await params).slug;
   console.log('slug =', slug);
-  return (
-    <DemoPageCmp slug={slug} />
-  )
+  return <DemoPageCmp slug={slug} delay={false} streaming={false}/>;
 }

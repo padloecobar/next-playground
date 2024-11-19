@@ -3,18 +3,26 @@ import { ComponentResolver } from '@/components/ComponentResolver/ComponentResol
 
 export default function Col(props: {
   cmpData: DemoComponentLevelAFieldsFragment;
+  delay?: boolean;
+  streaming?: boolean;
 }) {
-  const { cmpData } = props;
+  const { cmpData, delay, streaming } = props;
   const children = cmpData.contentListCollection?.items ?? [];
   return (
     <>
       <div>A Column View</div>
       uniqueTitle : {cmpData.uniqueTitle}
-      {children.map((item) => (
-        <div key={item.sys.id}>
-          <ComponentResolver entry={item} />
-        </div>
-      ))}
+      <div style={{ display: 'flex', flexDirection:"column", alignItems: 'center' }}>
+        {children.map((item) => (
+          <div key={item.sys.id}>
+            <ComponentResolver
+              entry={item}
+              delay={delay}
+              streaming={streaming}
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
 }

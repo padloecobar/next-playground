@@ -9,14 +9,20 @@ import {
   Entry,
 } from '@/graphql/__generated/graphql-operations';
 
-const ViewModel = async ({ entry }: { entry: Entry }) => {
-  // console.log('C entry = ', entry);
+const ViewModel = async ({
+  entry,
+  delay,
+}: {
+  entry: Entry;
+  delay?: boolean;
+  streaming?: boolean;
+}) => {
   const data = await fetchGraphQL<
     DemoComponentLevelCByIdQuery,
     DemoComponentLevelCByIdQueryVariables
   >(
     DemoComponentLevelCByIdDocument,
-    { id: entry.sys.id },
+    { id: entry.sys.id, delay },
     {
       next: {
         tags: [entry.sys.id],
@@ -25,9 +31,9 @@ const ViewModel = async ({ entry }: { entry: Entry }) => {
   );
   const cmpData = data.demoComponentLevelC as DemoComponentLevelCFieldsFragment;
   return (
-    <div style={{borderStyle: 'dashed'}}>
+    <div style={{ borderStyle: 'dashed' }}>
       title C: {cmpData.title}
-      <Image src={cmpData.image?.url} width={50} height={50} alt={"x"} />
+      <Image src={cmpData.image?.url} width={50} height={50} alt={'x'} />
     </div>
   );
 };

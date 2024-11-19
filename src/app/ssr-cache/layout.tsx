@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import '@/app/globals.css';
+import { Footer } from '@/components/Footer/Footer';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -13,8 +14,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <>
+      {children}
+      <Footer />
+    </>
   );
 }

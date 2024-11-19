@@ -1,39 +1,34 @@
 import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
-import styles from './ComponentResolver.module.css';
+import LoaderComponent from '@/components/LoaderComponent/LoaderComponent';
 
 type BasicProps = {
   __typename: string;
   sys: { id: string };
 };
 
-export function ComponentResolver({ entry }: { entry: BasicProps }) {
+export function ComponentResolver({
+  entry,
+  streaming,
+  delay,
+}: {
+  entry: BasicProps;
+  streaming?: boolean;
+  delay?: boolean;
+}) {
   const Component: React.ComponentType<{
-    entry: BasicProps;
+    entry: BasicProps,
+    delay?: boolean,
   }> = dynamic(() => import(`@/components/${entry.__typename}/ViewModel`));
   return (
     <>
-      {/*<Suspense fallback={<div>Loading...</div>}>*/}
-      <Suspense
-        fallback={
-          <>
-            {/*Cool loading animation*/}
-            <div className={styles.loadingContainer}>
-              <div className={styles.cube}>
-                <div className={`${styles.side} ${styles.front}`}>⏳</div>
-                <div className={`${styles.side} ${styles.back}`}>⏰</div>
-                <div className={`${styles.side} ${styles.right}`}>⏱️</div>
-                <div className={`${styles.side} ${styles.left}`}>💫</div>
-                <div className={`${styles.side} ${styles.top}`}>🙃</div>
-                <div className={`${styles.side} ${styles.bottom}`}>🤯</div>
-              </div>
-              <div className={styles.loadingText}>Loading...</div>
-            </div>
-          </>
-        }
-      >
-        {Component ? <Component entry={entry} /> : null}
-      </Suspense>
+      {streaming ? (
+        <Suspense fallback={<LoaderComponent />}>
+          {Component ? <Component entry={entry} delay={delay}/> : null}
+        </Suspense>
+      ) : Component ? (
+        <Component entry={entry} delay={delay}/>
+      ) : null}
     </>
   );
 }

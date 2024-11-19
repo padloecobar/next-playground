@@ -18,15 +18,17 @@ export const fetchConfig = {
     },
   },
 };
+
 // Utility function to introduce a randomized delay 1
 function randomDelay(maxMs: number) {
   const delayTime = Math.floor(Math.random() * maxMs);
+  // const delayTime = maxMs
   return new Promise((resolve) => setTimeout(resolve, delayTime));
 }
 
 export async function fetchGraphQL<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
-  variables: TVariables & { preview?: boolean | null },
+  variables: TVariables & { preview?: boolean | null; delay?: boolean | null },
   options: object
 ): Promise<TResult> {
   const body = JSON.stringify({
@@ -34,22 +36,22 @@ export async function fetchGraphQL<TResult, TVariables>(
     variables,
   });
   const startTime = Date.now();
-  if(!query.includes("DemoPageBySlug")) {
+  if (variables.delay) {
     await randomDelay(5000);
   }
-  console.log(`fetchUrl ${fetchConfig.endpoint}`, body, variables);
+  console.log(`fetchUrl ${fetchConfig.endpoint}`, variables);
   const response = await fetch(fetchConfig.endpoint as string, {
     method: 'POST',
     ...(variables?.preview ? fetchConfig.previewParams : fetchConfig.params),
     body,
-    ...options,
     cache: 'force-cache',
+    ...options,
   });
 
   const json = await response.json();
 
   const endTime = Date.now();
-  console.log('response = ', `${endTime - startTime} ms`, json);
+  console.log('response for', variables, `took ${endTime - startTime} ms`);
 
   if (json.errors) {
     //throw new Error(json.errors.map((err: any) => err.message).join('\n'));
@@ -58,19 +60,3 @@ export async function fetchGraphQL<TResult, TVariables>(
 
   return json.data as TResult;
 }
-
-
-// export class TypedDocumentString<TResult, TVariables>
-//   extends String
-//   implements DocumentTypeDecoration<TResult, TVariables>
-// {
-//   __apiType?: DocumentTypeDecoration<TResult, TVariables>['__apiType'];
-//
-//   constructor(private value: string, public __meta__?: Record<string, any> | undefined) {
-//     super(value);
-//   }
-//
-//   toString(): string & DocumentTypeDecoration<TResult, TVariables> {
-//     return this.value;
-//   }
-// }

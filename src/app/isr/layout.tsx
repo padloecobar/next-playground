@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import './globals.css';
-import React from 'react';
+import '@/app/globals.css';
+import { Footer } from '@/components/Footer/Footer';
+import LoaderComponent from '@/components/LoaderComponent/LoaderComponent';
+import React, { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +16,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
