@@ -18,9 +18,10 @@ export const fetchConfig = {
     },
   },
 };
-// Utility function to introduce a delay
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+// Utility function to introduce a randomized delay
+function randomDelay(maxMs: number) {
+  const delayTime = Math.floor(Math.random() * maxMs);
+  return new Promise((resolve) => setTimeout(resolve, delayTime));
 }
 
 export async function fetchGraphQL<TResult, TVariables>(
@@ -33,7 +34,9 @@ export async function fetchGraphQL<TResult, TVariables>(
     variables,
   });
   const startTime = Date.now();
-  await delay(2000);
+  if(!query.includes("DemoPageBySlug")) {
+    await randomDelay(5000);
+  }
   console.log(`fetchUrl ${fetchConfig.endpoint}`, body, variables);
   const response = await fetch(fetchConfig.endpoint as string, {
     method: 'POST',
