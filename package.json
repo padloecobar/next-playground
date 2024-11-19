@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "pnpm run codegen && next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "sync-content-models": "node src/contenful-as-code/syncToContenful.js"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "next": "15.0.2",
