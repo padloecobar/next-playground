@@ -18,7 +18,7 @@ export const fetchConfig = {
     },
   },
 };
-// Utility function to introduce a randomized delay
+// Utility function to introduce a randomized delay 1
 function randomDelay(maxMs: number) {
   const delayTime = Math.floor(Math.random() * maxMs);
   return new Promise((resolve) => setTimeout(resolve, delayTime));
