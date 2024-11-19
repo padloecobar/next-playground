@@ -3,6 +3,7 @@ query DemoPageBySlug ($slug: String!) {
         items {
             _id
             __typename
+            internalName
             sys{
                 ...MySys
             }

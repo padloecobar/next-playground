@@ -16,7 +16,6 @@ export default async function DemoPageCmp({
   delay?: boolean;
   streaming?: boolean;
 }) {
-  console.log('slug =', slug);
   const page = await fetchGraphQL<
     DemoPageBySlugQuery,
     DemoPageBySlugQueryVariables
@@ -28,6 +27,7 @@ export default async function DemoPageCmp({
   return (
     <>
       <p>Page slug : {slug}</p>
+      <p>Page internalName : {page.demoPageCollection?.items[0]?.internalName}</p>
       <div
         style={{
           height: 'auto',
