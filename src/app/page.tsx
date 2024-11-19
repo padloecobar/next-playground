@@ -14,7 +14,11 @@ export default async function Home() {
             <Link
               className={styles.pageLink}
               href={`/ssr-cache-streaming`}
-            >SSR STREAMING</Link>
+            >SSR Streaming (Slow)</Link>
+            <Link
+              className={styles.pageLink}
+              href={`/ssr-cache-streaming-fast`}
+            >SSR Streaming (Fast)</Link>
             <Link className={styles.pageLink} href={`/isr`}>ISR (ON DEMAND REVALIDATION)</Link>
           </li>
         </Suspense>

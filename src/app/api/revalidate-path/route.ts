@@ -18,6 +18,8 @@ export async function POST(req: Request) {
     revalidatePath(`/ssr-cache/${slug}` );
     revalidatePath("/ssr-cache-streaming");
     revalidatePath(`/ssr-cache-streaming/${slug}`);
+    revalidatePath("/ssr-cache-streaming-fast");
+    revalidatePath(`/ssr-cache-streaming-fast/${slug}`);
     revalidatePath("/isr");
     revalidatePath(`/isr/${slug}`);
 

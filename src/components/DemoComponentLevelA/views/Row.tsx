@@ -14,7 +14,7 @@ export default function Row(
   const children = cmpData.contentListCollection?.items ?? [];
   return (
     <>
-      <div>B Row View</div>
+      <div>A Row View</div>
       uniqueTitle : {cmpData.uniqueTitle}
       {/*row view*/}
       <div className={styles.rowContainer}>

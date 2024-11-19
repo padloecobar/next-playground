@@ -17,17 +17,21 @@ export function ComponentResolver({
   delay?: boolean;
 }) {
   const Component: React.ComponentType<{
-    entry: BasicProps,
-    delay?: boolean,
+    entry: BasicProps;
+    delay?: boolean;
+    streaming?: boolean;
   }> = dynamic(() => import(`@/components/${entry.__typename}/ViewModel`));
+  console.log(`ComponentResolver: delay: ${delay}, streaming: ${streaming}, entry=`, entry.__typename);
   return (
     <>
-      {streaming ? (
-        <Suspense fallback={<LoaderComponent />}>
-          {Component ? <Component entry={entry} delay={delay}/> : null}
-        </Suspense>
-      ) : Component ? (
-        <Component entry={entry} delay={delay}/>
+      {Component ? (
+        streaming ? (
+          <Suspense fallback={<LoaderComponent />}>
+            {<Component entry={entry} delay={delay} streaming={streaming} />}
+          </Suspense>
+        ) : (
+          <Component entry={entry} delay={delay} />
+        )
       ) : null}
     </>
   );

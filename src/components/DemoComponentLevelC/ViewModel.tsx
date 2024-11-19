@@ -30,6 +30,7 @@ const ViewModel = async ({
     }
   );
   const cmpData = data.demoComponentLevelC as DemoComponentLevelCFieldsFragment;
+  //console.log('cmpData C =', cmpData);
   return (
     <div style={{ borderStyle: 'dashed' }}>
       title C: {cmpData.title}
