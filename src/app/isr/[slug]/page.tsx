@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   const pages = await fetchGraphQL<DemoPagesQuery, DemoPagesQueryVariables>(
     DemoPagesDocument,
     {},
-    {cache: 'no-cache'}
+    {cache: 'no-store'}
   );
   console.log('ISR pages =', pages.demoPageCollection?.items);
   return pages.demoPageCollection?.items.map((page) => ({
