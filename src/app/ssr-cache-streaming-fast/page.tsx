@@ -29,7 +29,7 @@ export default async function Home() {
           {pages.demoPageCollection?.items.map((page: any) => (
             <li className={styles.pageListItem} key={page.sys.id}>
               <a className={styles.pageLink} href={`/ssr-cache-streaming-fast/${page.slug}`}>
-                {page.slug}
+                {`${page.slug} (${page.internalName})` }
               </a>
             </li>
           ))}

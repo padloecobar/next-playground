@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   const pages = await fetchGraphQL<DemoPagesQuery, DemoPagesQueryVariables>(
     DemoPagesDocument,
     {},
-    {}
+    { cache: 'no-store' }
   );
   console.log('pages =', pages.demoPageCollection?.items);
   return pages.demoPageCollection?.items.map((page) => ({
@@ -44,7 +44,7 @@ export default async function Home() {
         {pages.demoPageCollection?.items.map((page: any) => (
           <li className={styles.pageListItem} key={page.sys.id}>
             <a className={styles.pageLink} href={`/isr/${page.slug}`}>
-              {page.slug}
+              {`${page.slug} (${page.internalName})` }
             </a>
           </li>
         ))}
