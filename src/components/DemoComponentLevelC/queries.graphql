@@ -2,7 +2,8 @@
 fragment DemoComponentLevelCFields on DemoComponentLevelC{
     __typename
     sys {
-        ...MySys
+        id
+#        ...MySys
     }
     title
     image {

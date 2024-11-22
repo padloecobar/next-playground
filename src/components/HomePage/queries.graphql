@@ -4,9 +4,7 @@ query DemoPages{
         skip
         limit
         items {
-            sys {
-                ...MySys
-            }
+            ...EntryFields
             slug
             internalName
         }

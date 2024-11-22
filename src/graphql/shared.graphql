@@ -11,3 +11,8 @@ fragment MyEntry on Entry {
 }
 
 
+query test($id: String!) {
+    demoComponentLevelA(id: $id) {
+        ...MyEntry
+    }
+}

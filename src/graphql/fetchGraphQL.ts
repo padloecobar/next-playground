@@ -1,5 +1,6 @@
 import 'server-only';
-import { TypedDocumentString } from '@/graphql/__generated/graphql-operations';
+
+import { TypedDocumentString } from '@/graphql/graphql';
 
 export const fetchConfig = {
   endpoint: `https://graphql.contentful.com/content/v1/spaces/${String(
@@ -28,21 +29,24 @@ function randomDelay(maxMs: number) {
 
 export async function fetchGraphQL<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
-  variables: TVariables & { preview?: boolean | null; delay?: boolean | null },
-  options: object
-): Promise<TResult> {
+  variables: TVariables,
+  options?: Omit<RequestInit, 'body' | 'method'> & {
+    delay?: boolean;
+    preview?: boolean;
+  }
+) {
   const body = JSON.stringify({
     query: query,
     variables,
   });
   const startTime = Date.now();
-  if (variables.delay) {
+  if (options?.delay) {
     await randomDelay(5000);
   }
-  console.log(`fetchUrl ${fetchConfig.endpoint}`, variables);
+  console.log(`fetchUrl ${fetchConfig.endpoint}`, query.toString(), body);
   const response = await fetch(fetchConfig.endpoint as string, {
     method: 'POST',
-    ...(variables?.preview ? fetchConfig.previewParams : fetchConfig.params),
+    ...(options?.preview ? fetchConfig.previewParams : fetchConfig.params),
     body,
     cache: 'force-cache',
     ...options,
@@ -51,11 +55,10 @@ export async function fetchGraphQL<TResult, TVariables>(
   const json = await response.json();
 
   const endTime = Date.now();
-  console.log('response for', variables, `took ${endTime - startTime} ms`);
+  console.log('response for', variables, `took ${endTime - startTime} ms`, json);
 
-  if (json.errors) {
-    //throw new Error(json.errors.map((err: any) => err.message).join('\n'));
-    throw new Error(json.errors[0].message);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
   }
 
   return json.data as TResult;

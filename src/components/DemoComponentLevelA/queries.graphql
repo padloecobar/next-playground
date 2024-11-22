@@ -2,16 +2,13 @@
 fragment DemoComponentLevelAFields on DemoComponentLevelA{
     uniqueTitle
     viewConfig
-    __typename
-    sys {
-       ...MySys
-    }
+    ...EntryFields
     contentListCollection{
         total
         limit
         skip
         items {
-            ...MyEntry
+            ...EntryFields
         }
     }
 }

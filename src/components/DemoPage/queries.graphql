@@ -1,18 +1,21 @@
+fragment EntryFields on Entry {
+    __typename
+    sys {
+        id
+        locale
+    }
+}
 query DemoPageBySlug ($slug: String!) {
     demoPageCollection(where: { slug: $slug }, limit: 1) {
         items {
-            _id
-            __typename
             internalName
-            sys{
-                ...MySys
-            }
+            ...EntryFields
             contentListCollection{
                 total
                 limit
                 skip
                 items {
-                    ...MyEntry
+                    ...EntryFields
                 }
             }
         }

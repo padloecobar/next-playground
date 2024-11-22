@@ -6,7 +6,7 @@ import {
   DemoComponentLevelBByIdQueryVariables,
   DemoComponentLevelBFieldsFragment,
   Entry,
-} from '@/graphql/__generated/graphql-operations';
+} from '@/graphql/graphql';
 
 const ViewModel = async ({
   entry,
@@ -22,11 +22,9 @@ const ViewModel = async ({
     DemoComponentLevelBByIdQueryVariables
   >(
     DemoComponentLevelBByIdDocument,
+    { id: entry.sys.id },
     {
-      id: entry.sys.id,
       delay,
-    },
-    {
       next: {
         tags: [entry.sys.id],
       },
@@ -35,7 +33,7 @@ const ViewModel = async ({
   const cmpData = data.demoComponentLevelB as DemoComponentLevelBFieldsFragment;
   const children = cmpData.contentListCollection?.items ?? [];
   return (
-    <div style={{ borderStyle: 'dashed', }}>
+    <div style={{ borderStyle: 'dashed' }}>
       title B: {cmpData.title}
       {children.map(
         (item) =>

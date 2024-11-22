@@ -1,16 +1,13 @@
 # DemoComponent.graphql
 fragment DemoComponentLevelBFields on DemoComponentLevelB{
     title
-    __typename
-    sys {
-        ...MySys
-    }
+    ...EntryFields
     contentListCollection {
         total
         skip
         limit
         items {
-            ...MyEntry
+            ...EntryFields
         }
     }
 }

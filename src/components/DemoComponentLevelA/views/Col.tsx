@@ -1,4 +1,4 @@
-import { DemoComponentLevelAFieldsFragment } from '@/graphql/__generated/graphql-operations';
+import { DemoComponentLevelAFieldsFragment } from '@/graphql/graphql';
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
 
 export default function Col(props: {

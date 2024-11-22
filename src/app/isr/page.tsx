@@ -5,7 +5,7 @@ import {
   DemoPagesQuery,
   DemoPagesQueryVariables,
   Exact,
-} from '@/graphql/__generated/graphql-operations';
+} from '@/graphql/graphql';
 import React from 'react';
 
 /* ISR ENABLER START */
@@ -41,7 +41,7 @@ export default async function Home() {
     <div className={styles.pageListContainer}>
       <h1 className={styles.pageListTitle}>Explore Pages</h1>
       <ul className={styles.pageList}>
-        {pages.demoPageCollection?.items.map((page: any) => (
+        {pages.demoPageCollection?.items.map((page) => (
           <li className={styles.pageListItem} key={page.sys.id}>
             <a className={styles.pageLink} href={`/isr/${page.slug}`}>
               {`${page.slug} (${page.internalName})` }

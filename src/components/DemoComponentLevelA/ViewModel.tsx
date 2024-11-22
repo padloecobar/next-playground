@@ -1,46 +1,43 @@
+import Row from '@/components/DemoComponentLevelA/views/Row';
+import Col from '@/components/DemoComponentLevelA/views/Col';
+import { fetchGraphQL } from '@/graphql/fetchGraphQL';
 import {
   DemoComponentLevelAByIdDocument,
   DemoComponentLevelAByIdQuery,
   DemoComponentLevelAByIdQueryVariables,
-  DemoComponentLevelAFieldsFragment,
   Entry,
-} from '@/graphql/__generated/graphql-operations';
-import { fetchGraphQL } from '@/graphql/fetchGraphQL';
-import Row from '@/components/DemoComponentLevelA/views/Row';
-import Col from '@/components/DemoComponentLevelA/views/Col';
+} from '@/graphql/graphql';
 
 const ViewModel = async ({
   entry,
   delay,
-  streaming
+  streaming,
 }: {
   entry: Entry;
   delay?: boolean;
-  streaming?: boolean
+  streaming?: boolean;
 }) => {
   const data = await fetchGraphQL<
     DemoComponentLevelAByIdQuery,
     DemoComponentLevelAByIdQueryVariables
   >(
     DemoComponentLevelAByIdDocument,
+    { id: entry.sys.id },
     {
-      id: entry.sys.id,
       delay,
-    },
-    {
       next: {
         tags: [entry.sys.id],
       },
     }
   );
-  const cmpData = data.demoComponentLevelA as DemoComponentLevelAFieldsFragment;
+  const cmpData = data.demoComponentLevelA;
   return (
     <div style={{ borderStyle: 'dashed' }}>
-      <div>{cmpData.__typename}</div>
+      <div>{data.__typename}</div>
       {cmpData.viewConfig === 'row' ? (
-        <Row cmpData={cmpData} delay={delay} streaming={streaming}/>
+        <Row cmpData={cmpData} delay={delay} streaming={streaming} />
       ) : (
-        <Col cmpData={cmpData} delay={delay} streaming={streaming}/>
+        <Col cmpData={cmpData} delay={delay} streaming={streaming} />
       )}
     </div>
   );

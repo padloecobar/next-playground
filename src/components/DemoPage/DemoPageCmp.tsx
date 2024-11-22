@@ -3,7 +3,7 @@ import {
   DemoPageBySlugDocument,
   DemoPageBySlugQuery,
   DemoPageBySlugQueryVariables,
-} from '@/graphql/__generated/graphql-operations';
+} from '@/graphql/graphql';
 import styles from './DemoPage.module.css';
 import { ComponentResolver } from '@/components/ComponentResolver/ComponentResolver';
 
@@ -19,7 +19,7 @@ export default async function DemoPageCmp({
   const page = await fetchGraphQL<
     DemoPageBySlugQuery,
     DemoPageBySlugQueryVariables
-  >(DemoPageBySlugDocument, { slug: slug, preview: false, delay }, {});
+  >(DemoPageBySlugDocument, { slug: slug }, { preview: false, delay });
 
   const childComponents =
     page.demoPageCollection?.items[0]?.contentListCollection?.items ?? [];
@@ -27,7 +27,9 @@ export default async function DemoPageCmp({
   return (
     <>
       <p>Page slug : {slug}</p>
-      <p>Page internalName : {page.demoPageCollection?.items[0]?.internalName}</p>
+      <p>
+        Page internalName : {page.demoPageCollection?.items[0]?.internalName}
+      </p>
       <div
         style={{
           height: 'auto',

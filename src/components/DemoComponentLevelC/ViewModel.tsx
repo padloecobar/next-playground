@@ -7,7 +7,7 @@ import {
   DemoComponentLevelCByIdQueryVariables,
   DemoComponentLevelCFieldsFragment,
   Entry,
-} from '@/graphql/__generated/graphql-operations';
+} from '@/graphql/graphql';
 
 const ViewModel = async ({
   entry,
@@ -22,8 +22,9 @@ const ViewModel = async ({
     DemoComponentLevelCByIdQueryVariables
   >(
     DemoComponentLevelCByIdDocument,
-    { id: entry.sys.id, delay },
+    { id: entry.sys.id },
     {
+      delay,
       next: {
         tags: [entry.sys.id],
       },

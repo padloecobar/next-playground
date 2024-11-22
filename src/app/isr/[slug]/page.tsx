@@ -3,7 +3,7 @@ import {
   DemoPagesDocument,
   DemoPagesQuery,
   DemoPagesQueryVariables,
-} from '@/graphql/__generated/graphql-operations';
+} from '@/graphql/graphql';
 import DemoPageCmp from '@/components/DemoPage/DemoPageCmp';
 
 /* ISR ENABLER START */
